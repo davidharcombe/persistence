@@ -1,0 +1,7 @@
+<aspectj>
+	<aspects>
+		<aspect name="com.gramercysoftware.persistence.transactions.TransactionalAspect" />
+		<aspect name="com.gramercysoftware.persistence.transactions.AnnotationDrivenTransactionalAspect" />
+		<aspect name="com.gramercysoftware.persistence.transactions.DefaultTransactionalAspect" />
+	</aspects>
+</aspectj>
