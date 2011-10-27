@@ -32,7 +32,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	}
 	
 	/**
-	 * Inseting without a transaction does nothing.
+	 * Inserting without a transaction does nothing.
 	 */
 	@Test
 	@Ignore
@@ -63,17 +63,17 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 		
 		entityManager.getTransaction().commit();
 
-		List<TestEntity>  serviceUrlList = genericJpaDao.getAll();
-		assert(!serviceUrlList.get(0).isAvailable());
+		List<TestEntity>  list = genericJpaDao.getAll();
+		assertTrue(!list.get(0).isAvailable());
 		
 		entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
-		serviceUrlList.get(0).setAvailable(true);
+		list.get(0).setAvailable(true);
+		genericJpaDao.save(list.get(0));
 		entityManager.getTransaction().commit();
 
-		serviceUrlList = genericJpaDao.getAll();
-		assert(serviceUrlList.get(0).isAvailable());
-		
+		list = genericJpaDao.getAll();
+		assertTrue(list.get(0).isAvailable());
 	}
 	
 	
