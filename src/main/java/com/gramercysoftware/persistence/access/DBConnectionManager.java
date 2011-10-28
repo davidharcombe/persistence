@@ -27,16 +27,13 @@ import org.apache.log4j.Logger;
  * @version 1.0
  */
 public class DBConnectionManager {
-
 	private static Logger log = Logger.getLogger(DBConnectionManager.class);
 
 	// this is thread safe as static final variables
 	// are guaranteed to be initialized before the class
 	// can be used.  Helpful tip from the
 	// Doug Lea book.
-
 	private static final DBConnectionManager instance = new DBConnectionManager();
-
 
     private List<Connection> activeConnections;
 

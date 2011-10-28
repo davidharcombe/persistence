@@ -31,8 +31,7 @@ public class DefaultEntityManagerUtil extends EntityManagerUtil {
 			}
 
 			try {
-				entityManagerFactory = Persistence.createEntityManagerFactory(properties.getProperty(PERSISTENCE_UNIT_KEY),
-					properties);
+				entityManagerFactory = Persistence.createEntityManagerFactory(properties.getProperty(PERSISTENCE_UNIT_KEY), properties);
 			} catch (RuntimeException t) {
 				log.fatal(t);
 				throw t;

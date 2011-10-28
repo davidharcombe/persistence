@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Hashtable;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -26,7 +28,7 @@ public class DatabasePool extends DBPool {
     public static final long DEFAULT_MAX_LEASE = 10*1000;
     private long maxLeaseTime = DEFAULT_MAX_LEASE;
     
-    private static DatabasePool testDatabasePool;
+    private static DataSource testDatabasePool;
 
     /**
      * @deprecated - Testing only - Required for mock testing
@@ -34,7 +36,7 @@ public class DatabasePool extends DBPool {
     public DatabasePool() {
     }
     
-    protected static void setTestInstance(DatabasePool pool) {
+    protected static void setTestInstance(DataSource pool) {
     	testDatabasePool = pool;
     }
     
@@ -76,7 +78,7 @@ public class DatabasePool extends DBPool {
      * returns an instance of the default pool specified
      * in the DBProperties object.
      */
-    public static DatabasePool getInstance() {
+    public static DataSource getInstance() {
     	if (testDatabasePool != null) {
     		return testDatabasePool;
     	}

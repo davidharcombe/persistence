@@ -1,12 +1,8 @@
 package com.gramercysoftware.persistence.util;
 
-import java.util.List;
-
 import javax.persistence.EntityTransaction;
 
 import org.apache.log4j.Logger;
-
-import com.gramercysoftware.persistence.access.ConnectionListener;
 
 public class GSPEntityTransaction implements EntityTransaction {
 	private Logger logger = Logger.getLogger(GSPEntityTransaction.class);
@@ -28,18 +24,6 @@ public class GSPEntityTransaction implements EntityTransaction {
 		logger.debug("About to Commit Transaction!!!");
 		t.commit();
 		logger.debug("Comitted Transaction!!!");
-		
-		callCommitListeners();
-	}
-
-	public void callCommitListeners() {
-		logger.debug("Calling commit listeners");
-		List<ConnectionListener> listeners = enstreamEntityManager.getListeners();
-		for (ConnectionListener listener : listeners) {
-            try {
-                listener.connectionCommitted();
-            }catch( Exception e ) {logger.error(e);}
-        }
 	}
 
 	public boolean getRollbackOnly() {
@@ -55,18 +39,6 @@ public class GSPEntityTransaction implements EntityTransaction {
 		logger.debug("About to Rollback Transaction!!!");
 		t.rollback();
 		logger.debug("About to Transaction rolled back!!!");
-		
-		callRollbackListeners();
-	}
-
-	public void callRollbackListeners() {
-		logger.debug("Calling rollback listeners");
-		List<ConnectionListener> listeners = enstreamEntityManager.getListeners();
-		for (ConnectionListener listener : listeners) {
-            try {
-                listener.connectionRolledback();
-            }catch( Exception e ) {logger.error(e);}
-        }
 	}
 
 	public void setRollbackOnly() {
