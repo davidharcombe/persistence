@@ -39,6 +39,7 @@ public class GSPEntityManager implements EntityManager {
 		return em.createNamedQuery(name);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Query createNativeQuery(String sqlString, Class resultClass) {
 		return em.createNativeQuery(sqlString, resultClass);
 	}
@@ -76,7 +77,7 @@ public class GSPEntityManager implements EntityManager {
 	}
 
 	public EntityTransaction getTransaction() {
-		return new GSPEntityTransaction(em.getTransaction(), this);
+		return new GSPEntityTransaction(em.getTransaction());
 	}
 
 	public boolean isOpen() {

@@ -7,11 +7,9 @@ import org.apache.log4j.Logger;
 public class GSPEntityTransaction implements EntityTransaction {
 	private Logger logger = Logger.getLogger(GSPEntityTransaction.class);
 	private final EntityTransaction t;
-	private final GSPEntityManager enstreamEntityManager;
 
-	public GSPEntityTransaction(EntityTransaction t, GSPEntityManager enstreamEntityManager) {
+	public GSPEntityTransaction(EntityTransaction t) {
 		this.t = t;
-		this.enstreamEntityManager = enstreamEntityManager; 
 	}
 
 	public void begin() {
@@ -35,7 +33,6 @@ public class GSPEntityTransaction implements EntityTransaction {
 	}
 
 	public void rollback() {
-		
 		logger.debug("About to Rollback Transaction!!!");
 		t.rollback();
 		logger.debug("About to Transaction rolled back!!!");
