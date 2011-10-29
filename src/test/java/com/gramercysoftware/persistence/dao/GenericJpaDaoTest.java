@@ -11,9 +11,9 @@ import javax.persistence.EntityManager;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.gramercysoftware.persistence.DatabaseTestCase;
 import com.gramercysoftware.persistence.DummyEntity;
 import com.gramercysoftware.persistence.DummyEntity.Type;
-import com.gramercysoftware.persistence.access.DatabaseTestCase;
 import com.gramercysoftware.persistence.util.DefaultEntityManagerUtil;
 
 public class GenericJpaDaoTest extends DatabaseTestCase {

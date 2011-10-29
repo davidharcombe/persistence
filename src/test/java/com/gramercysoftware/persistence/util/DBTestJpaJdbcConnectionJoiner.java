@@ -1,6 +1,6 @@
 package com.gramercysoftware.persistence.util;
 
-import com.gramercysoftware.persistence.access.DatabaseTestCase;
+import com.gramercysoftware.persistence.DatabaseTestCase;
 
 public class DBTestJpaJdbcConnectionJoiner extends DatabaseTestCase {	
 //	private static final Long ERROR_CODE = 1000L;

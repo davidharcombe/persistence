@@ -8,9 +8,9 @@ import org.aspectj.lang.Aspects;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gramercysoftware.persistence.DatabaseTestCase;
 import com.gramercysoftware.persistence.DummyEntity;
 import com.gramercysoftware.persistence.DummyEntity.Type;
-import com.gramercysoftware.persistence.access.DatabaseTestCase;
 import com.gramercysoftware.persistence.dao.GenericJpaDao;
 import com.gramercysoftware.persistence.transaction.annotation.Transactional;
 import com.gramercysoftware.persistence.transactions.AnnotationDrivenTransactionalAspect;
