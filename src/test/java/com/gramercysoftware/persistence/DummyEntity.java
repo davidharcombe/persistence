@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name= "test_table")
-public class TestEntity implements java.io.Serializable {
+public class DummyEntity implements java.io.Serializable {
 	private static final long serialVersionUID = -245468210340920653L;
 
 	public enum Type { FOO, BAR, }
@@ -56,7 +56,7 @@ public class TestEntity implements java.io.Serializable {
 	
 	@Override
 	public String toString() {
-		return "TestEntity [id=" + id + ", isAvailable=" + isAvailable
+		return "DummyEntity [id=" + id + ", isAvailable=" + isAvailable
 				+ ", message=" + message + ", type=" + type + "]";
 	}
 }

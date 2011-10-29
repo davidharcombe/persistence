@@ -8,8 +8,8 @@ import org.aspectj.lang.Aspects;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gramercysoftware.persistence.TestEntity;
-import com.gramercysoftware.persistence.TestEntity.Type;
+import com.gramercysoftware.persistence.DummyEntity;
+import com.gramercysoftware.persistence.DummyEntity.Type;
 import com.gramercysoftware.persistence.access.DatabaseTestCase;
 import com.gramercysoftware.persistence.dao.GenericJpaDao;
 import com.gramercysoftware.persistence.transaction.annotation.Transactional;
@@ -33,10 +33,10 @@ public class TransactionAspectTest extends DatabaseTestCase {
 	public void testSimpleTransaction() {
 		Service testService = new Service();
 		testService.insertOneRowInTransaction();
-		GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+		GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 			DefaultEntityManagerUtil.getInstance());
 
-		List<TestEntity> serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity> serviceUrlList = genericJpaDao.getAll();
 		assertEquals(1, serviceUrlList.size());
 
 	}
@@ -45,10 +45,10 @@ public class TransactionAspectTest extends DatabaseTestCase {
 	public void testNestedTransaction() {
 		Service testService = new Service();
 		testService.insertRowsFromNestedTransaction();
-		GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+		GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 			DefaultEntityManagerUtil.getInstance());
 
-		List<TestEntity> serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity> serviceUrlList = genericJpaDao.getAll();
 		assertEquals(2, serviceUrlList.size());
 	}
 
@@ -58,9 +58,9 @@ public class TransactionAspectTest extends DatabaseTestCase {
 		try {
 			testService.insertRowsFromNestedTransactionWithChildTransactionThrowingException();
 		} catch (Exception e) {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
-			List<TestEntity> serviceUrlList = genericJpaDao.getAll();
+			List<DummyEntity> serviceUrlList = genericJpaDao.getAll();
 			assertEquals(0, serviceUrlList.size());
 		}
 	}
@@ -71,9 +71,9 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		testService.insertRowButMarkATransactionForRollback();
 
-		GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+		GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 			DefaultEntityManagerUtil.getInstance());
-		List<TestEntity> serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity> serviceUrlList = genericJpaDao.getAll();
 		assertEquals(0, serviceUrlList.size());
 
 	}
@@ -92,9 +92,9 @@ public class TransactionAspectTest extends DatabaseTestCase {
 		testService.insertOneRowInTransaction();
 		testService.saveDataWithoutTransaction();
 		testService.insertOneRowInTransaction();
-		GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+		GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 			DefaultEntityManagerUtil.getInstance());
-		List<TestEntity> serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity> serviceUrlList = genericJpaDao.getAll();
 		assertEquals(2, serviceUrlList.size());
 	}
 
@@ -102,14 +102,14 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		@Transactional
 		public void insertOneRowInTransaction() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.save(createServiceUrl(Type.FOO, "hi", false));
 		}
 
 		@Transactional
 		public void insertRowsFromNestedTransaction() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.save(createServiceUrl(Type.BAR, "bye", true));
 			insertOneRowInTransaction();
@@ -117,7 +117,7 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		@Transactional
 		public void insertRowsFromNestedTransactionWithChildTransactionThrowingException() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.save(createServiceUrl(Type.BAR, "bye", true));
 			throwExceptionFromATransaction();
@@ -125,7 +125,7 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		@Transactional
 		public void insertRowButMarkATransactionForRollback() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.save(createServiceUrl(Type.BAR, "bye", true));
 			genericJpaDao.getEntityManagerUtil().getEntityManager().getTransaction().setRollbackOnly();
@@ -133,7 +133,7 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		@Transactional
 		public void insertRowButRollbackTheChildTransaction() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.save(createServiceUrl(Type.BAR, "bye", true));
 			rollbackChild();
@@ -147,23 +147,23 @@ public class TransactionAspectTest extends DatabaseTestCase {
 
 		@Transactional
 		public void rollbackChild() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
 			genericJpaDao.getEntityManagerUtil().getEntityManager().getTransaction().rollback();
 		}
 
 		public void saveDataWithoutTransaction() {
-			GenericJpaDao<TestEntity, Integer> genericJpaDao = new GenericJpaDao<TestEntity, Integer>(TestEntity.class,
+			GenericJpaDao<DummyEntity, Integer> genericJpaDao = new GenericJpaDao<DummyEntity, Integer>(DummyEntity.class,
 				DefaultEntityManagerUtil.getInstance());
-			TestEntity testEntity = new TestEntity();
+			DummyEntity testEntity = new DummyEntity();
 			testEntity.setAvailable(true);
 			testEntity.setMessage("saveDataWithoutTransaction");
 			testEntity.setType(Type.BAR);
 			genericJpaDao.getEntityManagerUtil().getEntityManager().persist(testEntity);
 		}
 
-		private TestEntity createServiceUrl(Type type, String message, boolean isAvailable) {
-			TestEntity testEntity = new TestEntity();
+		private DummyEntity createServiceUrl(Type type, String message, boolean isAvailable) {
+			DummyEntity testEntity = new DummyEntity();
 			testEntity.setMessage(message);
 			testEntity.setAvailable(isAvailable);
 			testEntity.setType(type);

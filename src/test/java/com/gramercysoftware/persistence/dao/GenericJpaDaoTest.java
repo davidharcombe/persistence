@@ -11,22 +11,22 @@ import javax.persistence.EntityManager;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.gramercysoftware.persistence.TestEntity;
-import com.gramercysoftware.persistence.TestEntity.Type;
+import com.gramercysoftware.persistence.DummyEntity;
+import com.gramercysoftware.persistence.DummyEntity.Type;
 import com.gramercysoftware.persistence.access.DatabaseTestCase;
 import com.gramercysoftware.persistence.util.DefaultEntityManagerUtil;
 
 public class GenericJpaDaoTest extends DatabaseTestCase {
 	@Test
 	public void insertAndSearchData() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 		EntityManager entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
 		genericJpaDao.save(createServiceUrl(Type.FOO, "hi", false));
 		genericJpaDao.save(createServiceUrl(Type.BAR, "bye", true));
 		entityManager.getTransaction().commit();
 		
-		List<TestEntity>  serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity>  serviceUrlList = genericJpaDao.getAll();
 		assertEquals(2, serviceUrlList.size());
 
 	}
@@ -37,9 +37,9 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	@Test
 	@Ignore
 	public void insertWithoutTransactionDoesNothing() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 		
-		List<TestEntity>  serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity>  serviceUrlList = genericJpaDao.getAll();
 		int countBefore = serviceUrlList.size();
 		genericJpaDao.save(createServiceUrl(Type.FOO, "hi", false));
 		
@@ -54,7 +54,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	 */
 	@Test
 	public void update() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 
 		EntityManager entityManager;
 		entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
@@ -63,7 +63,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 		
 		entityManager.getTransaction().commit();
 
-		List<TestEntity>  list = genericJpaDao.getAll();
+		List<DummyEntity>  list = genericJpaDao.getAll();
 		assertTrue(!list.get(0).isAvailable());
 		
 		entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
@@ -82,7 +82,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	 */
 	@Test
 	public void updateAndRollbackData() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 
 		EntityManager entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -91,7 +91,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 		entityManager.getTransaction().commit();
 		
 		entityManager.getTransaction().begin();
-		List<TestEntity>  serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity>  serviceUrlList = genericJpaDao.getAll();
 		serviceUrlList.get(0).setAvailable(true);
 		entityManager.getTransaction().rollback();
 
@@ -108,7 +108,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	 */
 	@Test
 	public void insertAndRollbackData() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 
 		EntityManager entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -118,7 +118,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 		entityManager.getTransaction().rollback();
 		
 		entityManager.getTransaction().begin();
-		List<TestEntity>  serviceUrlList = genericJpaDao.getAll();
+		List<DummyEntity>  serviceUrlList = genericJpaDao.getAll();
 		entityManager.getTransaction().commit();
 		assertTrue(serviceUrlList.isEmpty());
 		
@@ -129,7 +129,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	 */
 	@Test(expected=IllegalStateException.class)
 	public void rollbackWhenNoActiveTransaction() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 
 		EntityManager entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -148,7 +148,7 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 
 	@Test(expected=IllegalStateException.class)
 	public void commitWhenNoActiveTransaction() {
-		GenericJpaDao<TestEntity,Integer> genericJpaDao = new GenericJpaDao<TestEntity,Integer>(TestEntity.class,DefaultEntityManagerUtil.getInstance());
+		GenericJpaDao<DummyEntity,Integer> genericJpaDao = new GenericJpaDao<DummyEntity,Integer>(DummyEntity.class,DefaultEntityManagerUtil.getInstance());
 
 		EntityManager entityManager = genericJpaDao.getEntityManagerUtil().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -161,8 +161,8 @@ public class GenericJpaDaoTest extends DatabaseTestCase {
 	}
 	
 	
-	private TestEntity createServiceUrl(Type type, String message, boolean isAvailable) {
-		TestEntity testEntity = new TestEntity();
+	private DummyEntity createServiceUrl(Type type, String message, boolean isAvailable) {
+		DummyEntity testEntity = new DummyEntity();
 		testEntity.setMessage(message);
 		testEntity.setAvailable(isAvailable);
 		testEntity.setType(type);
