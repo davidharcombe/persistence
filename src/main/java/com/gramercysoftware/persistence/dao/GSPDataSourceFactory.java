@@ -40,28 +40,9 @@ public class GSPDataSourceFactory {
 		initializeDatabaseDriver(properties);
 		
 		ObjectPool connectionPool = createConnectionPool(properties);
-		
-		//
-		// First, we'll create a ConnectionFactory that the
-		// pool will use to create Connections.
-		// We'll use the DriverManagerConnectionFactory,
-		// using the connect string passed in the command line
-		// arguments.
-		//
 		ConnectionFactory connectionFactory = 
 			new DriverManagerConnectionFactory(properties.getProperty("jdbc.url"), properties.getProperty("jdbc.user"), properties.getProperty("jdbc.password"));
-
-		//
-		// Next we'll create the PoolableConnectionFactory, which wraps
-		// the "real" Connections created by the ConnectionFactory with
-		// the classes that implement the pooling functionality.
-		//
-//		PoolableConnectionFactory poolableConnectionFactory = 
 		new PoolableConnectionFactory(connectionFactory, connectionPool, null, null, false, true, Connection.TRANSACTION_SERIALIZABLE);
-		//
-		// Finally, we create the PoolingDriver itself,
-		// passing in the object pool we created.
-		//
 		dataSource = new PoolingDataSource(connectionPool);
 	}
 
