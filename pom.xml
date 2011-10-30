@@ -10,7 +10,7 @@
     <scm>
         <connection>scm:git:git@github.com:davidharcombe/persistence.git</connection>
         <developerConnection>scm:git:git@github.com:davidharcombe/persistence.git</developerConnection>
-        <url>scm:git:http://davidharcombe@github.com/davidharcombe/persistence.git</url>
+        <url>http://davidharcombe@github.com/davidharcombe/persistence.git</url>
     </scm>
 
     <dependencies>
@@ -184,7 +184,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                           <includeScope>runtime</includeScope>
+                            <includeScope>runtime</includeScope>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
@@ -223,6 +223,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <tagBase>scm:git:git@github.com:davidharcombe/persistence.git</tagBase>
+                    <remoteTagging>true</remoteTagging>
+                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>
