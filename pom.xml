@@ -10,7 +10,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:davidharcombe/persistence.git</connection>
 		<developerConnection>scm:git:git@github.com:davidharcombe/persistence.git</developerConnection>
-		<url>git://davidharcombe@github.com/davidharcombe/persistence.git</url>
+		<url>http://davidharcombe@github.com/davidharcombe/persistence.git</url>
 	</scm>
 
 	<dependencies>
