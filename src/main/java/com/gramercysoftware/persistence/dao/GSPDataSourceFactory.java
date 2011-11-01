@@ -1,3 +1,20 @@
+/*
+ * Simple pooled DatSource Factory
+ * Copyright (C) 2011 David Harcombe
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.gramercysoftware.persistence.dao;
 
 import java.io.IOException;
@@ -40,28 +57,9 @@ public class GSPDataSourceFactory {
 		initializeDatabaseDriver(properties);
 		
 		ObjectPool connectionPool = createConnectionPool(properties);
-		
-		//
-		// First, we'll create a ConnectionFactory that the
-		// pool will use to create Connections.
-		// We'll use the DriverManagerConnectionFactory,
-		// using the connect string passed in the command line
-		// arguments.
-		//
 		ConnectionFactory connectionFactory = 
 			new DriverManagerConnectionFactory(properties.getProperty("jdbc.url"), properties.getProperty("jdbc.user"), properties.getProperty("jdbc.password"));
-
-		//
-		// Next we'll create the PoolableConnectionFactory, which wraps
-		// the "real" Connections created by the ConnectionFactory with
-		// the classes that implement the pooling functionality.
-		//
-//		PoolableConnectionFactory poolableConnectionFactory = 
 		new PoolableConnectionFactory(connectionFactory, connectionPool, null, null, false, true, Connection.TRANSACTION_SERIALIZABLE);
-		//
-		// Finally, we create the PoolingDriver itself,
-		// passing in the object pool we created.
-		//
 		dataSource = new PoolingDataSource(connectionPool);
 	}
 
